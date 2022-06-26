@@ -27,3 +27,4 @@ tags:{
         message:'A course should have at least one tag.'
     }
 },
+
