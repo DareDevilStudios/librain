@@ -53,6 +53,8 @@ app.post('/register',(req, res)=>{
     var email = req.body.email;
     var password = req.body.password;
 
+    // use try and catch(ex.message)
+
     async function register_member()
     {
         const member = new Member({
