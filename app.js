@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
 const express = require('express');
@@ -11,8 +12,8 @@ mongoose.connect('mongodb://localhost/librain_db')
 //type and required and joi
 
 const librain_reg = new mongoose.Schema({
-    regnum: Number,
-    username: String, 
+    Register_number: Number,
+    Username: String, 
     email: String,
     password: String,
     category: {type: String, default: "student" },
@@ -26,6 +27,7 @@ const Member = mongoose.model('Member', librain_reg);
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended:true }))
 app.use(express.json());
+
 app.use(express.static('public'))
 app.use('/css',express.static(__dirname + '/public/css'))
 app.use('/js',express.static(__dirname + '/public/js'))
@@ -43,37 +45,65 @@ app.get('/',(req, res)=>{
 })
 
 app.get('/register',(req, res)=>{
-    res.render('register');
+    res.render('register',{ msg:""});
 })
 
 app.post('/register',(req, res)=>{
 
-    var regnum = parseInt(req.body.regnum);
-    var username = req.body.username;
+    var Register_number = parseInt(req.body.Register_number);
+    var Username = req.body.Username;
     var email = req.body.email;
     var password = req.body.password;
-
-    // use try and catch(ex.message)
 
     async function register_member()
     {
         const member = new Member({
-            regnum: regnum,
-            username: username,
+            Register_number: Register_number,
+            Username: Username,
             email: email,
             password: password
-        });
-        
+        })
+
+        const { error } = validateMember(member);
+        const error_pass = error.details[0].message;
+        if(error_pass != '"$__" is not allowed'){
+            console.log(error_pass);
+            if (error) return res.render('register',{ msg:error_pass });
+        }
+        // return res.json ({ status: 'error', error: 'invalid Username'})
+        // return res.status(400).send(error.details[0].message);
+
         const result = await member.save();
         console.log(result);
+        return res.redirect('/');
     }
 
     register_member();
-
-    return res.redirect('/');
 })
 
+function validateMember(member) {
+    const schema = Joi.object({
 
+        Register_number:Joi.number()
+        .greater(3)
+        .required(),
+
+        Username: Joi.string()
+        .alphanum()
+        .min(3)
+        .max(30)
+        .required(),
+
+        email: Joi.string()
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+
+        password: Joi.string()
+        .pattern(new RegExp('^[a-z]{1}[a-z0-9_]{3,13}$')),
+
+    })
+    return schema.validate(member);
+
+}
 
 //Listen 
 
