@@ -1,3 +1,5 @@
+# using of body parser
+
 var bodyParser = require('body-parser') 
 
 app.use(bodyParser.json())
@@ -131,3 +133,34 @@ function validateMember(member) {
     })
     return schema.validate(member);
   }
+
+minlength:5,
+maxlength:255,
+match:/pattern/
+
+category:{
+    type:String,
+    required:true,
+    enum:['web','mobile','network']
+  },
+
+price:{
+  type:Number,
+  required:function(){ return this.isPublished }, 
+  min:10,
+  max:255
+}
+
+custom validators
+
+tags:{
+  type:Array,
+  validate:{
+
+    validator:function(v){
+      return v.length>0;
+        },
+        message:'A course should have at least one tag.'
+    }
+},
+

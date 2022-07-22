@@ -11,14 +11,23 @@
                 <img class="mob-logo" src="assets/logo-mob.png" alt="">
                 <p class="welcome">Welcome</p>
                 <p class="sub_head">Sign in to continue</p>
+
+                <% if(msg!="") { %>
+                    <div class="center">
+                        <div class="error"><%= msg%></div>
+                    </div>
+                <% } else { %>
+                    <br>
+                <% } %>
+
                 <form action="/" method="post" 
                             style="
                                 display: flex;
                                 flex-direction: column;
-                                margin-top: 60px;
+                                margin-top: 40px;
                                 align-items: center;
                             ">
-                    <input class="inputs" type="text" name="reg_no" id="regno" placeholder=" 📇 Register number" 
+                    <input class="inputs" type="text" name="Register_number" id="Register_number" placeholder=" 📇 Register number" 
                             ><br>
                     <input class="inputs" type="password" name="password" id="password" placeholder=" 🔒 Password" 
                             style="

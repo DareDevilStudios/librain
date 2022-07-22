@@ -20,11 +20,12 @@
                     align-items: center;
                     ">
 
-                <% if(msg!="hiii") { %>
-                    <div class="error"><%= msg%></div>
-                <% } else { %>
-                    <br>
-                <% } %>
+                    <% if(msg!="") { %>
+                        <div class="error"><%= msg%></div>
+                    <% } else { %>
+                        <br>
+                    <% } %>
+
                     <input class="inputs" type="text" name="Register_number" id="Register_number" placeholder=" 📇 Register Number" ><br>
                     
                     <input class="inputs" type="text" name="Username" id="Username" placeholder=" 🧑 Username" ><br>
@@ -49,8 +50,4 @@
     </div>  
       
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> af6b23720f147b0563d1d559413644f9a8eb64c1

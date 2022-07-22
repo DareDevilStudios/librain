@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
@@ -14,13 +15,18 @@ mongoose.connect('mongodb://localhost/librain_db')
 const librain_reg = new mongoose.Schema({
     Register_number: Number,
     Username: String, 
-    email: String,
+    email: {type: String},
     password: String,
     category: {type: String, default: "student" },
     librain_points: {type: Number, default: 0}
 });
 
 const Member = mongoose.model('Member', librain_reg);
+
+// async function salter(){
+    
+// }
+// salter();
 
 // use
 
@@ -41,11 +47,23 @@ app.set('view engine','ejs');
 // Routes
 
 app.get('/',(req, res)=>{
-    res.render('login');
+    res.render('login',{ msg:""});
 })
 
 app.get('/register',(req, res)=>{
     res.render('register',{ msg:""});
+})
+
+app.post('/', async (req, res)=>{
+
+    let result = await Member.findOne({ Register_number : req.body.Register_number});
+    console.log(result);
+    if (!result) return res.render('login',{ msg:"invalid register number or password" });
+
+    const compare = await bcrypt.compare(req.body.password , result.password);
+    if(!compare) return res.render('login',{ msg:"invalid register number or password" });
+
+    res.send("<h1>You are logged in</h1>");
 })
 
 app.post('/register',(req, res)=>{
@@ -72,6 +90,11 @@ app.post('/register',(req, res)=>{
         }
         // return res.json ({ status: 'error', error: 'invalid Username'})
         // return res.status(400).send(error.details[0].message);
+        const salt = await bcrypt.genSalt(10);
+        console.log(salt);
+        const hashed = await bcrypt.hash(member.password ,salt);
+        member.password = hashed;
+        console.log(hashed);
 
         const result = await member.save();
         console.log(result);

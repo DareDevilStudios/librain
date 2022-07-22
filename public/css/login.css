@@ -36,6 +36,7 @@
     height: 100vh;
     text-align: center;
 }
+
 .mob-logo{
     width: 120px;
     height: 120px;
@@ -45,7 +46,7 @@
 .welcome{
     font-size: 50px;
     font-weight: 700;
-    margin-top: 150px;
+    margin-top: 90px;
     letter-spacing: 4px;
     color: rgb(255, 255, 255);
 }
@@ -55,11 +56,32 @@
     font-size: 27px;
 }
 
+.center{
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 50px;
+    background-color: rgb(33,36,45);
+    color: rgb(255, 255, 255);
+    border-radius: 15px;
+    font-weight: 600;
+}
+
 .inputs{
     width: 60%;
     padding: 10px;
     border-radius: 10px;
 }
+
 
 @media (max-width: 768px){
     .left{
