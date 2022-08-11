@@ -1,0 +1,43 @@
+.b{
+    color:#00B9AE;
+    font-size: 3rem;
+    font-weight: bold;
+}
+.branchb{
+    margin-left:11rem;
+    margin-top: 5rem;
+}
+.allign{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.syllabusimg{
+    background-image: url("/assets/blurimage.png");
+    width: 30rem;
+    height: 30rem;
+    border-radius: 50px;
+    align-items: center;
+}
+
+.textimg{
+    background-image: url("/assets/blurimage.png");
+    width: 30rem;
+    height: 20rem;
+    border-radius: 50px;
+    align-items: center;
+}
+
+.smallimg{
+    background-image: url("/assets/blurimage.png");
+    width: 10rem;
+    height: 10rem;
+    border-radius: 30px;
+    align-items: center;
+}
+
+.decision{
+    margin-top: 7rem;
+    margin-right: 20rem;
+}

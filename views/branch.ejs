@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head.ejs") %>
+    <link rel="stylesheet" href="/css/branch.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <title>Document</title>
+    <script>
+        function myfu() {
+            
+        }
+    </script>
+</head>
+<body>
+    <div class="main">
+        <%- include("./partials/main_left.ejs") %>
+        <div class="branchb">
+            <h1 class="h1"><span class="b">B</span>ranch</h1>
+            <div class="branchc mt-5">
+                <div class="row">
+                    
+                        <button onclick="myfu();" value="it" class="allign btn btn-lg d-flex col m-4 " style="background: #00B9AE; color:aliceblue; border-radius:2rem;">
+                            <a href="/branch/it/"> Information <br> Technology </a>
+                        </button>
+                    
+                
+                    
+                        <button onclick="window.location.href+=('/sem?branch=cs');" class="allign btn btn-lg d-flex col m-4" style="background: #00B9AE; color:aliceblue; border-radius:2rem;">
+                            <a href="/branch/cs/">Computer Science Engineering</a>
+                        </button>
+                    
+
+                    
+                        <button onclick="window.location.href+=('/sem?branch=ce');" class="allign btn btn-lg d-flex col m-4" style="background: #00B9AE; color:aliceblue; border-radius:2rem;">
+                            <a href="/branch/ce/">Civil <br> Engineering</a>
+                        </button>
+                    
+                </div>
+                <div action="/branch/sem" class="row">
+                    
+                        <button onclick="window.location.href+=('/sem?branch=me');"" class="allign btn btn-lg d-flex col m-4" style="background: #00B9AE; color:aliceblue; border-radius:2rem;">
+                            <a href="/branch/me/">Mechanical Engineering</a>
+                            
+                        </button>
+                    
+                    
+                        <button onclick="window.location.href+=('/sem?branch=ee');" class="allign btn btn-lg d-flex col m-4" style="background: #00B9AE; color:aliceblue; border-radius:2rem;">
+                            <a href="/branch/ee/">Electrical <br> Engineering </a>
+                            
+                        </button>
+                    
+                    
+                        <button onclick="window.location.href+=('/sem?branch=ec');" class="allign btn btn-lg d-flex col m-4" style="background: #00B9AE; color:aliceblue; border-radius:2rem;">
+                            <a href="/branch/ec/"> Electronics Engineering </a>
+                            
+                        </button>
+                    
+                </div>
+                <div action="/branch/sem" class="d-flex justify-center">
+                    
+                        <button onclick="window.location.href+=('/sem?branch=sf');" class="allign btn btn-lg d-flex  m-4 px-5" style="background: #00B9AE; color:aliceblue; border-radius:2rem;">
+                            <a href="/branch/sf/">Fire & Safety <br> Engineering</a>
+                        </button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
