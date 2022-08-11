@@ -141,8 +141,6 @@ app.post('/upload', async (req, res) => {
     if (!req.files)
         return res.end("Upload failed");
 
-    console.log(req.get('Referrer'));
-
     u_rl = JSON.stringify(req.get('Referrer'));
 
     u__rl = u_rl.split("/")
