@@ -34,8 +34,9 @@ const upload_schema = new mongoose.Schema({
     scheme: String,
     subject: String,
     material: String,
-    upvote: Number,
-    report: Number
+    upvote: {type:Number, default: 0},
+    report: {type:Number, default: 0},
+    report_msg:{type:String, default:""}
 });
 
 const upload_subject = new mongoose.Schema({
@@ -70,8 +71,14 @@ app.set('view engine', 'ejs');
 // Routes
 
 app.get('/', (req, res) => {
-    
     res.render('login', { msg: "" });
+})
+
+app.get('/admin', async(req, res) => {
+    const files = await File.find({report:{$gte : 0}});
+    console.log(files);
+
+    res.render('admin')
 })
 
 app.get('/register', (req, res) => {
@@ -98,7 +105,6 @@ app.get('/branch/:branch/:sem/:scheme/',async(req, res) => {
 
     let trikoo = await Subject.findOne({branch:req.params.branch, sem:req.params.sem, scheme:req.params.scheme});
     console.log(typeof req.params.sem)
-    let sem_id = parseInt(req.params.sem);
     console.log(trikoo.subject);
     res.render('subject',{subjects:trikoo.subject});
 
@@ -122,7 +128,13 @@ app.get('/branch/:branch/:sem/:scheme/:subject/:material', async (req, res) => {
     console.log({url: req.get('Referrer')+req.params.material});
     const files = await File.find({url: req.get('Referrer')+req.params.material+"/"}).exec();
 
-    res.render('textbook', {files, header: toTitleCase(req.params.material)});
+    res.render('textbook', {files, header: toTitleCase(req.params.material), id__ : files._id});
+})
+
+app.get('/branch/:branch/:sem/:scheme/:subject/:material/:id__/', async (req, res) => {
+    console.log(req.params.id__);
+    res.render('report');
+
 })
 
 app.post('/', async (req, res) => {
@@ -134,7 +146,15 @@ app.post('/', async (req, res) => {
     const compare = await bcrypt.compare(req.body.password, result.password);
     if (!compare) return res.render('login', { msg: "invalid register number or password" });
 
-    res.render('home')
+    if(result.Register_number==20020860)
+    {
+        res.redirect('/admin')
+    }
+    else
+    {
+        res.render('home')
+    }
+
 })
 
 app.post('/upload', async (req, res) => {
@@ -166,6 +186,21 @@ app.post('/upload', async (req, res) => {
 
     res.write("<script>navigation.back()</script>");
 
+})
+
+app.post('/report', async (req, res) => {
+    
+    var re_msg = req.body.r_msg;
+    console.log(re_msg);
+    console.log(req.params.id__);
+    var result = await File.findOne({_id : req.params.id__})
+    result.report_msg = re_msg;
+    console.log(result);
+
+    await result.save();
+
+    res.send("hii");
+   
 })
 
 app.post('/register', (req, res) => {
