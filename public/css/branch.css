@@ -16,7 +16,14 @@ body{
 
 .allign{
     display: flex;
-    width:15rem;
+    min-width:15rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.sem_allign{
+    display: flex;
+    min-width:12rem;
     justify-content: center;
     align-items: center;
 }

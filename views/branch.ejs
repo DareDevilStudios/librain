@@ -16,8 +16,8 @@
         <%- include("./partials/main_left.ejs") %>
         <div class="branchb">
             <h1 class="h1"><span class="b">B</span>ranch</h1>
-            <div class="branchc mt-5">
-                <div class="row">
+            <div class="branchc mt-5 d-flex flex-wrap">
+                <div class="d-flex flex-wrap w-75">
                     
                         <button onclick="myfu();" value="it" class="allign btn btn-lg d-flex col m-4 " style="background: #00B9AE; color:aliceblue; border-radius:2rem;">
                             <a href="/branch/it/"> Information <br> Technology </a>
@@ -35,8 +35,6 @@
                             <a href="/branch/ce/">Civil <br> Engineering</a>
                         </button>
                     
-                </div>
-                <div action="/branch/sem" class="row">
                     
                         <button onclick="window.location.href+=('/sem?branch=me');"" class="allign btn btn-lg d-flex col m-4" style="background: #00B9AE; color:aliceblue; border-radius:2rem;">
                             <a href="/branch/me/">Mechanical Engineering</a>
@@ -55,8 +53,6 @@
                             
                         </button>
                     
-                </div>
-                <div action="/branch/sem" class="d-flex justify-center">
                     
                         <button onclick="window.location.href+=('/sem?branch=sf');" class="allign btn btn-lg d-flex  m-4 px-5" style="background: #00B9AE; color:aliceblue; border-radius:2rem;">
                             <a href="/branch/SF/">Fire & Safety <br> Engineering</a>
