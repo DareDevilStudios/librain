@@ -190,7 +190,7 @@ app.post('/upload', async (req, res) => {
 
     await uploaded.save();
 
-    res.write("<script>navigation.back()</script>");
+    res.redirect('/');
 
 })
 
