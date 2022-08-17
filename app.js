@@ -9,6 +9,8 @@ const upload = require('express-fileupload');
 const { array } = require('joi');
 const app = express();
 
+require('./prod')(app);
+
 
 mongoose.connect('mongodb://localhost/librain_db')
     .then(() => console.log('Connected to MongoDB'))
@@ -268,7 +270,7 @@ function validateMember(member) {
 
 //Listen 
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`listening on port: ${port}`);
 })

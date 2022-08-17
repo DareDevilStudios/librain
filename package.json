@@ -4,7 +4,11 @@
   "description": "library for students",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": "16.15.0"
   },
   "keywords": [
     "librain",
@@ -15,9 +19,11 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
+    "compression": "^1.7.4",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
     "express-fileupload": "^1.4.0",
+    "helmet": "^5.1.1",
     "joi": "^17.6.0",
     "mongoose": "^6.4.0",
     "multer": "^1.4.5-lts.1"
