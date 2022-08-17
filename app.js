@@ -1,3 +1,4 @@
+require("dotenv").config();
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const bodyparser = require('body-parser');
@@ -12,9 +13,12 @@ const app = express();
 require('./prod')(app);
 
 
-mongoose.connect('mongodb://localhost/librain_db')
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.log('Error connecting to MongoDB', err))
+mongoose.connect(process.env.DATABASE,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.log('Error connecting to MongoDB', err))
       
 
 
