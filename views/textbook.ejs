@@ -31,6 +31,7 @@
             </div>
             <form  method="POST" action="/upload" enctype="multipart/form-data" class="d-flex fixed-bottom flex-row-reverse mb-5 me-4">
                 <input type="submit" class="d-inline btn ms-2" value="Upload" style="background: #00B9AE; color:aliceblue;">
+                <input type="text" class="d-none text-danger" id="hid" name="hid" value="<%= url_modd  %>">
                 <input type="file" name="file" class="d-inline p-1" style="background: #00B9AE; color:aliceblue;">
             </form>
         </div>

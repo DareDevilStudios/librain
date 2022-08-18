@@ -131,10 +131,17 @@ function toTitleCase(str) {
   }
 
 app.get('/branch/:branch/:sem/:scheme/:subject/:material', async (req, res) => {
-    console.log({url: req.get('Referrer')+req.params.material});
-    const files = await File.find({url: req.get('Referrer')+req.params.material+"/"}).exec();
 
-    res.render('textbook', {files, header: toTitleCase(req.params.material), id__ : files._id});
+    var url_mod = "/branch/"+ req.params.branch +"/"+ req.params.sem+"/"+ req.params.scheme+"/"+ req.params.subject+"/"+ req.params.material+"/"
+    console.log(JSON.stringify(url_mod));
+
+    // console.log({url: req.get('Referrer')+req.params.material});
+    // const files = await File.find({url: req.get('Referrer')+req.params.material+"/"}).exec();
+    const files = await File.find({url: url_mod}).exec();
+
+
+    // res.render('textbook', {files, header: toTitleCase(req.params.material), id__ : files._id});
+    res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod});
 })
 
 app.get('/branch/:branch/:sem/:scheme/:subject/:material/:id__/', async (req, res) => {
@@ -167,10 +174,14 @@ app.post('/upload', async (req, res) => {
     if (!req.files)
         return res.end("Upload failed");
 
-    u_rl = JSON.stringify(req.get('Referrer'));
-    console.log(u_rl);
+    // u_rl = JSON.stringify(req.get('Referrer'))
 
-    u__rl = u_rl.split("/");
+    var url_mod = req.body.hid
+    console.log(url_mod)
+
+    u__rl = url_mod.split("/")
+    console.log(u__rl)
+
 
     const file = req.files.file;
     const out = path.resolve(`./public/uploads/${file.md5}-${file.name}`);
@@ -181,18 +192,19 @@ app.post('/upload', async (req, res) => {
     const uploaded = new File({
         path: `/uploads/${file.md5}-${file.name}`,
         name: file.name,
-        url: req.get('Referrer'),
-        branch: u__rl[4],
-        sem: u__rl[5],
-        scheme: u__rl[6],
-        subject: u__rl[7],
-        material: u__rl[8]
+        url: url_mod,
+        branch: u__rl[2],
+        sem: u__rl[3],
+        scheme: u__rl[4],
+        subject: u__rl[5],
+        material: u__rl[6]
     });
 
     await uploaded.save();
 
-    // res.redirect('/');
-    res.write("<script>navigation.back()</script>");
+    // res.write("<script>navigation.back()</script>");
+    res.redirect(url_mod);
+    // res.write("<script>window.location.href = window.location.href</script>");
 
 })
 
