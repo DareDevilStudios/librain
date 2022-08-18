@@ -168,8 +168,9 @@ app.post('/upload', async (req, res) => {
         return res.end("Upload failed");
 
     u_rl = JSON.stringify(req.get('Referrer'));
+    console.log(u_rl);
 
-    u__rl = u_rl.split("/")
+    u__rl = u_rl.split("/");
 
     const file = req.files.file;
     const out = path.resolve(`./public/uploads/${file.md5}-${file.name}`);
@@ -190,7 +191,8 @@ app.post('/upload', async (req, res) => {
 
     await uploaded.save();
 
-    res.redirect('/');
+    // res.redirect('/');
+    res.write("<script>navigation.back()</script>");
 
 })
 
