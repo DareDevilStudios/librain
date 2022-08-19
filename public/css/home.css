@@ -306,6 +306,6 @@ height: 125px;
 
 @media (min-width: 375px) and (max-width: 768px){
   .heading{
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 }
