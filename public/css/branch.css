@@ -71,4 +71,30 @@ span.grey {
     line-height: 1.6em;
     text-align: center;
     width: 1.6em;
-  }
+}
+
+.forms{
+    position:fixed;
+    bottom:0;
+    right: 0;
+}
+
+@media (min-width: 375px) and (max-width: 768px){
+    .branchb{
+      margin-left: 0rem;
+    }
+
+    .headings{
+      margin-left: 3rem;
+    }
+
+    .forms{
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .sub_btn{
+        margin-top: 1rem;
+    }
+}
