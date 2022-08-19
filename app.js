@@ -184,13 +184,13 @@ app.post('/upload', async (req, res) => {
 
 
     const file = req.files.file;
-    const out = path.resolve(`./public/uploads/${file.md5}-${file.name}`);
+    const out = path.resolve(`./public/uploads/${file.name}`);
     fs.writeFileSync(out, file.data);
 
 
 
     const uploaded = new File({
-        path: `/uploads/${file.md5}-${file.name}`,
+        path: `/uploads/${file.name}`,
         name: file.name,
         url: url_mod,
         branch: u__rl[2],
