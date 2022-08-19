@@ -18,8 +18,10 @@ p{
 .main {
   display: flex;
   flex-direction: column;
-  padding-left: 20rem;
-  width: 100%;
+  position:fixed;
+  right: 0;
+  width: 80%;
+  height: 100%;
 }
 
 .left-box {
@@ -28,7 +30,7 @@ p{
   left: 0;
   background-color: #21242d;
   width: 20%;
-  height: 100vh;
+  height: 100%;
 }
 
 .left-box img {
@@ -110,7 +112,6 @@ span {
   margin-top: 2rem;
   font-size: 3.5rem;
   font-weight: 700;
-  line-height: 5rem;  
 }
 
 .middle img {
@@ -205,9 +206,9 @@ height: 125px;
   cursor: pointer;
 }
 
-.imgspacer{
+/* .imgspacer{
   margin-left: 10rem;
-}
+} */
 
 .limg img{
   width: 5rem;
