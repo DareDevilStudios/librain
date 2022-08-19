@@ -15,17 +15,7 @@
                 <% for (const file of files) { %>
                     <button type="submit" class="allign btn btn-lg d-flex flex-column m-5 px-5 py-2" style="background: #00B9AE; color:aliceblue; border-radius:2rem; min-width: 3rem;">
                         <a href="<%= file.path  %>"><h1 class="h5"><%= file.name %></h1></a>
-                        <div class="ms-3 w-100 d-flex justify-content-between">
-                            <div class="d-flex position-relative">
-                                <a href="/home" >
-                                    <i class="bi bi-bag-heart-fill fa-2x"></i>
-                                    <h5><span class="grey">10</span></h5>
-                                </a>
-                            </div>
-                            <a href="<%= file._id  %>/">
-                                <i class="bi bi-bag-x-fill fa-2x text-danger"></i>
-                            </a>
-                        </div>
+                        
                     </button>
                 <% } %>
             </div>

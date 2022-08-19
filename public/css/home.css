@@ -1,5 +1,6 @@
 body{
   background-color: #16181e;
+  overflow-x: hidden;
 }
 
 * {
@@ -8,9 +9,7 @@ body{
   padding: 0;
 }
 
-body{
-  overflow-x: hidden;
-}
+
 
 p{
   font-weight: 500;
@@ -18,9 +17,11 @@ p{
 .main {
   display: flex;
   flex-direction: column;
-  position:fixed;
+  position: fixed;
   right: 0;
   width: 80%;
+  overflow-y: auto;
+  overflow-x: hidden;
   height: 100%;
 }
 
@@ -113,6 +114,8 @@ span {
   font-size: 3.5rem;
   font-weight: 700;
 }
+
+
 
 .middle img {
   width: 300px;
@@ -298,4 +301,11 @@ height: 125px;
   border: 1px solid #0e1126;
   color: #0e1126;
   background-color: #fff;
+}
+
+
+@media (min-width: 420px) and (max-width: 768px){
+  .heading{
+    font-size: 2.5rem;
+  }
 }
