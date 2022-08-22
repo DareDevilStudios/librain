@@ -15,10 +15,10 @@
                     </div>
                 </div>
             </div>
-            <table class="w-75 ms-5" border="5" cellspacing="10" cellpadding="10">
+            <table class="ms-5" border="10" cellspacing="10px" cellpadding="5px">
               <tr>
                 <th>
-                  Subjects
+                  file name, id
                 </th>
                 <th>
                   Reason
@@ -31,6 +31,22 @@
                 </th>
               </tr>
 
+              <% for (const file of files) { %>
+                
+                <tr>
+                  <td><%= file.name  %></td>
+                  <td><%= file.report_msg  %></td>
+                  <form action="/delete" method="POST">
+                    <input type="text" class="d-none text-danger" id="hid" name="hid" value="<%= file._id  %>">
+                    <td><input class="btn text-danger" type="submit" value="delete"></td>
+                  </form>
+                  <form action="/ignore" method="post">
+                    <input type="text" class="d-none text-danger" id="hid" name="hid" value="<%= file._id  %>">
+                    <td><input class="btn text-primary" type="submit" value="ignore"></td>
+                  </form>
+                </tr>
+
+              <% } %>
               
               
             </table>

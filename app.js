@@ -80,11 +80,16 @@ app.get('/', (req, res) => {
     res.render('login', { msg: "" });
 })
 
+
+
 app.get('/admin', async(req, res) => {
-    const files = await File.find({report:{$gte : 0}});
+
+    await File.deleteMany({report:{ $gte:10}})
+    
+    const files = await File.find({report:{$gt : 0}});
     console.log(files);
 
-    res.render('admin')
+    res.render('admin',{files})
 })
 
 app.get('/register', (req, res) => {
@@ -137,17 +142,48 @@ app.get('/branch/:branch/:sem/:scheme/:subject/:material', async (req, res) => {
 
     // console.log({url: req.get('Referrer')+req.params.material});
     // const files = await File.find({url: req.get('Referrer')+req.params.material+"/"}).exec();
-    const files = await File.find({url: url_mod}).exec();
+    const files = await File.find({url: url_mod}).sort({ upvote: -1 }).exec();
 
 
     // res.render('textbook', {files, header: toTitleCase(req.params.material), id__ : files._id});
     res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod});
 })
 
-app.get('/branch/:branch/:sem/:scheme/:subject/:material/:id__/', async (req, res) => {
-    console.log(req.params.id__);
-    res.render('report');
+app.get('/branch/:branch/:sem/:scheme/:subject/:material/report/:id__/', async (req, res) => {
 
+    var url_mod = "/branch/"+ req.params.branch +"/"+ req.params.sem+"/"+ req.params.scheme+"/"+ req.params.subject+"/"+ req.params.material+"/"
+    console.log(req.params.id__);
+    res.render('report',{id : req.params.id__,url_:url_mod,spec_id : req.params.id__});
+
+})
+
+app.post('/delete/', async (req, res)=>{
+    var id = req.body.hid;
+    const file = await File.findOne({_id:id})
+    fs.unlink(file.path, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }})
+
+    
+    const files = await File.deleteOne({_id:id})
+    console.log(files);
+
+    res.redirect('/admin')
+})
+
+app.post('/ignore/', async (req, res)=>{
+    var id = req.body.hid;
+    const files = await File.findOne({_id:id})
+
+    files.report = 0;
+    files.report_msg = "";
+    console.log(files);
+
+    await files.save();
+
+    res.redirect('/admin')
 })
 
 app.post('/', async (req, res) => {
@@ -159,13 +195,13 @@ app.post('/', async (req, res) => {
     const compare = await bcrypt.compare(req.body.password, result.password);
     if (!compare) return res.render('login', { msg: "invalid register number or password" });
 
-    if(result.Register_number==20020860)
+    if(result.category == 'admin')
     {
-        res.redirect('/admin')
+        return res.redirect('/admin')
     }
     else
     {
-        res.render('home')
+        return res.render('home')
     }
 
 })
@@ -208,18 +244,37 @@ app.post('/upload', async (req, res) => {
 
 })
 
-app.post('/report', async (req, res) => {
-    
-    var re_msg = req.body.r_msg;
-    console.log(re_msg);
-    console.log(req.params.id__);
-    var result = await File.findOne({_id : req.params.id__})
-    result.report_msg = re_msg;
-    console.log(result);
+app.post('/upvote', async (req, res)=>{
+    var url_mod = req.body.hid;
+    var id__ = req.body._idget;
+    console.log(id__);
+
+    var result = await File.findOne({_id : id__})
+    // console.log(result);
+
+    result.upvote+=1;
 
     await result.save();
 
-    res.send("hii");
+    // console.log(result);
+
+    res.redirect(url_mod);
+})
+
+app.post('/report', async (req, res) => {
+    
+    var re_msg = req.body.r_msg;
+    var url = req.body.hid_url;
+    // console.log(re_msg);
+    var id = req.body.hid;
+    var result = await File.findOne({_id : id})
+    result.report_msg = re_msg;
+    result.report+=1;
+    // console.log(result);
+
+    await result.save();
+
+    res.redirect(url);
    
 })
 
