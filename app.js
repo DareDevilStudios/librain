@@ -142,27 +142,12 @@ app.get('/branch/:branch/:sem/:scheme/:subject/:material', async (req, res) => {
 
     // console.log({url: req.get('Referrer')+req.params.material});
     // const files = await File.find({url: req.get('Referrer')+req.params.material+"/"}).exec();
-
-    if(req.params.sem == "1")
-    {
-        const files = await File.find({sem:"1", scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
-        res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod});
-    }
-    else if(req.params.sem == "2")
-    {
-        const files = await File.find({sem:"2", scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
-        res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod});
-    }
-    else
-    {
-        const files = await File.find({branch: req.params.branch, sem:req.params.sem, scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
-        res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod});
-    }
-
+    
+    const files = await File.find({branch: req.params.branch, sem:req.params.sem, scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
 
 
     // res.render('textbook', {files, header: toTitleCase(req.params.material), id__ : files._id});
-    
+    res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod});
 })
 
 app.get('/branch/:branch/:sem/:scheme/:subject/:material/report/:id__/', async (req, res) => {
