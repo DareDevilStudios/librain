@@ -142,7 +142,7 @@ app.get('/branch/:branch/:sem/:scheme/:subject/:material', async (req, res) => {
 
     // console.log({url: req.get('Referrer')+req.params.material});
     // const files = await File.find({url: req.get('Referrer')+req.params.material+"/"}).exec();
-    const files = await File.find({url: url_mod}).sort({ upvote: -1 }).exec();
+    const files = await File.find({branch: req.params.branch, sem:req.params.sem, scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
 
 
     // res.render('textbook', {files, header: toTitleCase(req.params.material), id__ : files._id});
