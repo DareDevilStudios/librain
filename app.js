@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require('fs');
 const upload = require('express-fileupload');
 const { array } = require('joi');
+const http = require('http');
 const app = express();
 const bodyparser = require('body-parser');
 
@@ -436,6 +437,8 @@ function validateMember(member) {
 //Listen 
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+http
+.createServer(app)
+.listen(port, () => {
     console.log(`listening on port: ${port}`);
 })
