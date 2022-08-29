@@ -158,8 +158,23 @@ app.get('/branch/:branch/:sem/:scheme/:subject/:material', async (req, res) => {
     var url_mod = "/branch/"+ req.params.branch +"/"+ req.params.sem+"/"+ req.params.scheme+"/"+ req.params.subject+"/"+ req.params.material+"/"
     console.log(JSON.stringify(url_mod));
 
-    // console.log({url: req.get('Referrer')+req.params.material});
-    // const files = await File.find({url: req.get('Referrer')+req.params.material+"/"}).exec();
+    const reportfiles = await File.find({report: {$gte : 10}})
+    console.log(reportfiles)
+    
+    if(reportfiles)
+    {
+        for (const file of reportfiles)
+        {
+            var path_ = file.path.split("/")
+            
+            await drive.files.delete({
+                fileId:path_[5]
+            })
+        }
+    }
+
+    const files_del = await File.deleteMany({report:{$gte:10}})
+    console.log(files_del);
     
     const files = await File.find({branch: req.params.branch, sem:req.params.sem, scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
     // const files = await File.find({url : url_mod}).sort({ upvote: -1 }).exec();
@@ -180,12 +195,12 @@ app.get('/branch/:branch/:sem/:scheme/:subject/:material/report/:id__/', async (
 app.post('/delete/', async (req, res)=>{
     var id = req.body.hid;
     const file = await File.findOne({_id:id})
-    fs.unlink(file.path, (err) => {
-        if (err) {
-          console.error(err)
-          return
-        }})
-
+    var path_ = file.path.split("/")
+    console.log(path_)
+    
+    const response_ = await drive.files.delete({
+        fileId:path_[5]
+    })
     
     const files = await File.deleteOne({_id:id})
     console.log(files);
