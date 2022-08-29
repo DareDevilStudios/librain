@@ -328,12 +328,12 @@ app.post('/upload', async (req, res) => {
 
     await uploaded.save();
 
-    fs.unlinkSync(out)
-
+    
     // res.write("<script>navigation.back()</script>");
     res.redirect(url_mod);
     // res.write("<script>window.location.href = window.location.href</script>");
-
+    
+    fs.unlinkSync(out)
 })
 
 app.post('/upvote', async (req, res)=>{
