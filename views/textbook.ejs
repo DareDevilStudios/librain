@@ -29,7 +29,7 @@
                 <% } %>
             </div>
             <form  method="POST" action="/upload" enctype="multipart/form-data" class="forms col-4  mb-5 me-4">
-                <input type="file" name="file" class="d-inline p-1" style="background: #00B9AE; color:aliceblue;">
+                <input type="file" name="file" accept="application/pdf" class="d-inline p-1" style="background: #00B9AE; color:aliceblue;">
                 <input type="submit" class="d-inline btn sub_btn" value="Upload" style="background: #00B9AE; color:aliceblue;">
                 <input type="text" class="d-none text-danger" id="hid" name="hid" value="<%= url_modd  %>">
             </form>

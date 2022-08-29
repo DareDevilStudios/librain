@@ -1,7 +1,7 @@
+const { google } = require('googleapis')
 require("dotenv").config();
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
-const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
 const express = require('express');
 const path = require('path');
@@ -9,6 +9,7 @@ const fs = require('fs');
 const upload = require('express-fileupload');
 const { array } = require('joi');
 const app = express();
+const bodyparser = require('body-parser');
 
 require('./prod')(app);
 
@@ -19,7 +20,25 @@ mongoose.connect(process.env.DATABASE,{
 })
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.log('Error connecting to MongoDB', err))
-      
+
+const CLIENT_ID = '831866956829-67qibfdkdksbhdn5ojl9tkvlrf10mhfm.apps.googleusercontent.com';
+const CLIENT_SECRET = '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';
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
+
+const REFERESH_TOKEN = '1//04C7LvPl4e1qhCgYIARAAGAQSNwF-L9Ir27Ke-YFvUuhST8f2kKk4p9J9tvY83NBgwegd2IA4-MmuIt_pUrkg5LiVKDH414rbADs';
+
+const oauth2Client = new google.auth.OAuth2(
+    CLIENT_ID,
+    CLIENT_SECRET,
+    REDIRECT_URI
+);
+
+oauth2Client.setCredentials({refresh_token: REFERESH_TOKEN})
+
+const drive = google.drive({
+    version: 'v3',
+    auth: oauth2Client
+})
 
 
 const librain_reg = new mongoose.Schema({
@@ -57,7 +76,6 @@ const upload_subject = new mongoose.Schema({
 const Member = mongoose.model('Member', librain_reg);
 const File = mongoose.model('File', upload_schema);
 const Subject = mongoose.model('Subject', upload_subject);
-
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }))
@@ -144,6 +162,7 @@ app.get('/branch/:branch/:sem/:scheme/:subject/:material', async (req, res) => {
     // const files = await File.find({url: req.get('Referrer')+req.params.material+"/"}).exec();
     
     const files = await File.find({branch: req.params.branch, sem:req.params.sem, scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
+    // const files = await File.find({url : url_mod}).sort({ upvote: -1 }).exec();
 
 
     // res.render('textbook', {files, header: toTitleCase(req.params.material), id__ : files._id});
@@ -219,15 +238,54 @@ app.post('/upload', async (req, res) => {
     u__rl = url_mod.split("/")
     console.log(u__rl)
 
-
+    
     const file = req.files.file;
+    // file.tempFilePath = './public/upload/'
     const out = path.resolve(`./public/uploads/${file.name}`);
+    //const filePath = path.join(__dirname, 'file.name');
+    //const drive_url = "https://drive.google.com/drive/folders/1SUbz89BS_gIm_V5sNn8KfXg2OfDvm3Wa?usp=sharing"
+    //const drive_url = "https://drive.google.com/drive/my-drive"
     fs.writeFileSync(out, file.data);
+
+    console.log(file.name)
+    console.log(out)
+    console.log(file)
+
+    const response = await drive.files.create({
+        requestBody: {
+            name: file.name,
+            mimeType: file.mimetype,
+        },
+        media: {
+            mimeType: file.mimetype,
+            body: fs.createReadStream(out)
+        }
+    })
+
+    console.log(response);
+    
+    const fileId = response.data.id;
+    console.log(fileId);
+
+    await drive.permissions.create({
+        fileId: fileId,
+        requestBody: {
+            role:'reader',
+            type:'anyone'
+        }
+    })
+
+    const result = await drive.files.get({
+        fileId: fileId,
+        fields:'webViewLink , webContentLink',
+    })
+    console.log(result.data)
+
 
 
 
     const uploaded = new File({
-        path: `/uploads/${file.name}`,
+        path: result.data.webViewLink,
         name: file.name,
         url: url_mod,
         branch: u__rl[2],
@@ -238,6 +296,8 @@ app.post('/upload', async (req, res) => {
     });
 
     await uploaded.save();
+
+    fs.unlinkSync(out)
 
     // res.write("<script>navigation.back()</script>");
     res.redirect(url_mod);
