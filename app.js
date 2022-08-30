@@ -14,15 +14,6 @@ const bodyparser = require('body-parser');
 
 require('./prod')(app);
 
-//Listen 
-
-const port = process.env.PORT || 3000;
-http
-.createServer(app)
-.listen(port, () => {
-    console.log(`listening on port: ${port}`);
-})
-
 
 mongoose.connect(process.env.DATABASE,{
     useNewUrlParser: true,
@@ -443,3 +434,12 @@ function validateMember(member) {
 
 }
 
+//Listen 
+
+const port = process.env.PORT || 3000;
+http
+const server = http.createServer(app);
+
+app.listen(port, () => {
+    console.log(`listening on port: ${port}`);
+})
