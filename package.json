@@ -5,12 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "build": "webpack"
-  },
-  "engines": {
-    "node": "16.15.0",
-    "npm": "8.5.5"
+    "start": "node app.js"
   },
   "keywords": [
     "librain",
