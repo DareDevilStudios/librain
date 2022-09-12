@@ -1,3 +1,5 @@
+var encryptor = require('file-encryptor');
+var key = 'trikoo';
 const { google } = require('googleapis')
 require("dotenv").config();
 const bcrypt = require('bcrypt');
@@ -177,21 +179,25 @@ app.get('/branch/:branch/:sem/:scheme/:subject/:material', async (req, res) => {
     const files_del = await File.deleteMany({report:{$gte:10}})
     console.log(files_del);
 
-    if(req.params.sem == "1")
-    {
-        const files = await File.find({sem:"1", scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
-        res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod});
-    }
-    else if(req.params.sem == "2")
-    {
-        const files = await File.find({sem:"2", scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
-        res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod});
-    }
-    else
-    {
-        const files = await File.find({branch: req.params.branch, sem:req.params.sem, scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
-        res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod});
-    }
+    // if(req.params.sem == "1")
+    // {
+    //     const files = await File.find({sem:"1", scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
+    //     res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod});
+    // }
+    // else if(req.params.sem == "2")
+    // {
+    //     const files = await File.find({sem:"2", scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
+    //     res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod});
+    // }
+    // else
+    // {
+        const files = await File.find({material:req.params.material}).sort({ upvote: -1 }).exec();
+        res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod})
+    // }
+    // {
+    //     const files = await File.find({branch: req.params.branch, sem:req.params.sem, scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
+    //     res.render('textbook', {files, header: toTitleCase(req.params.material),url_modd : url_mod});
+    // }
     
     // const files = await File.find({branch: req.params.branch, sem:req.params.sem, scheme:['2015','2019'], subject:req.params.subject, material:req.params.material}).sort({ upvote: -1 }).exec();
     // const files = await File.find({url : url_mod}).sort({ upvote: -1 }).exec();
